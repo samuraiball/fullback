@@ -1,41 +1,34 @@
 package com.heno.fullback.model.entitiy.builder;
 
-import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.entitiy.Member;
 
 public class MemberBuilder {
-	private String userId;
-	private String firstName;
-	private String lastName;
-	private String middleName;
-	private Role role;
+	private String memberId;
+	private String memberName;
+	private String mailAddress;
+	private String password;
 
-	public MemberBuilder withUserId(String userId) {
-		this.userId = userId;
+	public MemberBuilder withMemberId(String memberId) {
+		this.memberId = memberId;
 		return this;
 	}
 
-	public MemberBuilder withFirstName(String firstName) {
-		this.firstName = firstName;
+	public MemberBuilder withMemberName(String memberName) {
+		this.memberName = memberName;
 		return this;
 	}
 
-	public MemberBuilder withLastName(String lastName) {
-		this.lastName = lastName;
+	public MemberBuilder withMailAddress(String mailAddress) {
+		this.mailAddress = mailAddress;
 		return this;
 	}
 
-	public MemberBuilder withMiddleName(String middleName) {
-		this.middleName = middleName;
-		return this;
-	}
-
-	public MemberBuilder withRole(Role role) {
-		this.role = role;
+	public MemberBuilder withPassword(String password) {
+		this.password = password;
 		return this;
 	}
 
 	public Member createMember() {
-		return new Member(userId, firstName, lastName, middleName, role);
+		return new Member(memberId, memberName, mailAddress, password);
 	}
 }

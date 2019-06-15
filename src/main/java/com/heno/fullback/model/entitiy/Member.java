@@ -1,47 +1,58 @@
 package com.heno.fullback.model.entitiy;
 
-import com.heno.fullback.model.common.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.seasar.doma.Entity;
+import org.seasar.doma.Id;
+import org.seasar.doma.Table;
 
 import java.io.Serializable;
 
 /**
- * user DTO
+ * Member Entity
+ * have
+ *
  * @author Yuya Hirooka
  */
+
+@Entity
+@Table(name = "member")
 public class Member implements Serializable {
 
-	public Member(String userId, String firstName,
-				  String lastName, String middleName, Role role) {
-		this.userId = userId;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.middleName = middleName;
-		this.role = role;
+	public Member() {
 	}
 
-	private final String userId;
-	private final String  firstName;
-	private final String  middleName;
-	private final String  lastName;
-	private final Role role;
-
-	public String getUserId() {
-		return userId;
+	public Member(String memberId, String memberName,
+				  String mailAddress, String password) {
+		this.memberId = memberId;
+		this.memberName = memberName;
+		this.password = password;
+		this.mailAddress = mailAddress;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	@Id
+	private String memberId;
+
+	private String memberName;
+
+	@JsonIgnore
+	private String password;
+
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public String getMiddleName() {
-		return middleName;
+	public String getPassword() {
+		return password;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public String getMemberName() {
+		return memberName;
 	}
 
-	public Role getRole() {
-		return role;
+	public String getMailAddress() {
+		return mailAddress;
 	}
+
+	private String mailAddress;
+
 }
