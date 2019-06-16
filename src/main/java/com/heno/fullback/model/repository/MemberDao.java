@@ -16,6 +16,10 @@ public interface MemberDao {
 	@Select
 	public Member selectById(String memberId);
 
+
+	@Select(ensureResult = true)
+	public Member selectByMailAddress(String mailAddress);
+
 	@Select
 	List<Member> selectAll();
 

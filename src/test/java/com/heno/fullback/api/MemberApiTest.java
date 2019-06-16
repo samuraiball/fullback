@@ -40,14 +40,16 @@ public class MemberApiTest {
 	private MockMvc mockMvc;
 
 	private String memberId = "1";
-	private String memberName = "henohenomohezi";
-	private String mailAddress = "henoheno@mohe.zi";
+	private String memberName = "henohenomohezi1";
+	private String mailAddress = "henoheno1@mohe.zi";
 	private String password = "password";
+	private Role role = Role.ROLE_TEAM_MEMBER;
 
 
 	private Member expectedMember = new MemberBuilder()
 			.withMemberId(memberId)
 			.withMemberName(memberName)
+			.withRole(role)
 			.withMailAddress(mailAddress)
 			.createMember();
 
@@ -56,7 +58,7 @@ public class MemberApiTest {
 					memberName,
 					password,
 					mailAddress,
-					Role.TEAM_MEMBER);
+					Role.ROLE_TEAM_MEMBER);
 
 	private String expectedMemberStr;
 	private String requestResourceStr;
@@ -99,6 +101,7 @@ public class MemberApiTest {
 		assertThat(dbResult.get("id")).isEqualTo(actual.getMemberId());
 		assertThat(dbResult.get("mail_address")).isEqualTo(actual.getMailAddress());
 		assertThat(dbResult.get("member_name")).isEqualTo(actual.getMemberName());
+		assertThat(dbResult.get("role")).isEqualTo("TEAM_MEMBER");
 		assertThat(dbResult.get("password")).isNotNull();
 		assertThat(dbResult.get("password")).isNotEqualTo(password);
 

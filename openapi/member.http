@@ -1,3 +1,15 @@
+### ログイン
+POST http://localhost:8080/login
+Content-Type: application/json
+
+{
+  "username": "henoheno1@mohe.zi",
+  "password": "password"
+}
+
+### ログアウト
+GET http://localhost:8080/logout
+
 ### メンバーの追加
 POST http://localhost:8080/member
 Content-Type: application/json
@@ -10,7 +22,7 @@ Content-Type: application/json
 }
 
 ### メンバーの取得
-GET http://localhost:8080/member/{memberID}
+GET http://localhost:8080/member/c0b5d997-3337-41c9-8857-367376c3d4bf
 
 ### メンバー情報の更新
 

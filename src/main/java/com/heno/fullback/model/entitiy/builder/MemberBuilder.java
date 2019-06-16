@@ -1,5 +1,6 @@
 package com.heno.fullback.model.entitiy.builder;
 
+import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.entitiy.Member;
 
 public class MemberBuilder {
@@ -7,6 +8,7 @@ public class MemberBuilder {
 	private String memberName;
 	private String mailAddress;
 	private String password;
+	private Role role;
 
 	public MemberBuilder withMemberId(String memberId) {
 		this.memberId = memberId;
@@ -28,7 +30,12 @@ public class MemberBuilder {
 		return this;
 	}
 
+	public MemberBuilder withRole(Role role) {
+		this.role = role;
+		return this;
+	}
+
 	public Member createMember() {
-		return new Member(memberId, memberName, mailAddress, password);
+		return new Member(memberId, memberName, mailAddress, password, role);
 	}
 }
