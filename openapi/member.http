@@ -1,0 +1,17 @@
+### メンバーの追加
+POST http://localhost:8080/member
+Content-Type: application/json
+
+{
+  "memberName": "へのへのもへじ",
+  "mailAddress": "henoheno@mohe.zi",
+  "password": "password",
+  "role": "TEAM_MEMBER"
+}
+
+### メンバーの取得
+GET http://localhost:8080/member/{memberID}
+
+### メンバー情報の更新
+
+### メンバーの削除

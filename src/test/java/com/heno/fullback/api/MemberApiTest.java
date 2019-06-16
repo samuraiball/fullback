@@ -20,10 +20,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 public class MemberApiTest {
@@ -74,6 +74,8 @@ public class MemberApiTest {
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
 	void getMemberApiTest() throws Exception {
+
+		// get data which inserted with init-tables.sql
 		mockMvc.perform(get("/member/" + memberId))
 				.andExpect(status().isOk())
 				.andExpect(content().json(expectedMemberStr));
@@ -91,15 +93,16 @@ public class MemberApiTest {
 		Member actual = objectMapper
 				.readValue(result.getResponse().getContentAsString(), Member.class);
 
+		// check if data is stored in DB
 		Map<String, Object> dbResult = jdbcTemplate
 				.queryForMap("select * from member where id = ? ", actual.getMemberId());
-
 		assertThat(dbResult.get("id")).isEqualTo(actual.getMemberId());
 		assertThat(dbResult.get("mail_address")).isEqualTo(actual.getMailAddress());
 		assertThat(dbResult.get("member_name")).isEqualTo(actual.getMemberName());
 		assertThat(dbResult.get("password")).isNotNull();
 		assertThat(dbResult.get("password")).isNotEqualTo(password);
 
+		// assert returned value
 		assertThat(actual.getMemberId()).isNotNull();
 		assertThat(actual.getMailAddress()).isEqualTo(mailAddress);
 		assertThat(actual.getMemberName()).isEqualTo(memberName);
