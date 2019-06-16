@@ -74,6 +74,7 @@ public class MemberController {
 				new MemberBuilder()
 						.withMemberId(UUID.randomUUID().toString())
 						.withMemberName(member.getMemberName())
+						.withMailAddress(member.getMailAddress())
 						.withPassword(passwordEncoder.encode(member.getPassword()))
 						.createMember()
 		);

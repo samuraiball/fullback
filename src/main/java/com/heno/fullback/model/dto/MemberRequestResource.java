@@ -8,24 +8,32 @@ import java.io.Serializable;
 
 public class MemberRequestResource implements Serializable {
 
+	MemberRequestResource(){
+	}
+
 	public MemberRequestResource(
 			String memberName,
 			String password,
+			String mailAddress,
 			Role role
 	) {
 		this.memberName = memberName;
 		this.password = password;
+		this.mailAddress = mailAddress;
 		this.role = role;
 	}
 
 	@NotNull
-	private final String memberName;
-
-	@NotNull(groups = MemberFirstTimeValidationGroup.class)
-	private final String password;
+	private  String memberName;
 
 	@NotNull
-	private final Role role;
+	private  String mailAddress;
+
+	@NotNull(groups = MemberFirstTimeValidationGroup.class)
+	private  String password;
+
+	@NotNull
+	private  Role role;
 
 	public String getMemberName() {
 		return memberName;
@@ -33,6 +41,10 @@ public class MemberRequestResource implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getMailAddress() {
+		return mailAddress;
 	}
 
 	public Role getRole() {

@@ -1,6 +1,7 @@
 package com.heno.fullback.model.entitiy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 import org.seasar.doma.Table;
@@ -30,9 +31,14 @@ public class Member implements Serializable {
 	}
 
 	@Id
+	@Column(name = "id")
 	private String memberId;
 
+	@Column(name = "member_name")
 	private String memberName;
+
+	@Column(name = "mail_address")
+	private String mailAddress;
 
 	@JsonIgnore
 	private String password;
@@ -53,6 +59,5 @@ public class Member implements Serializable {
 		return mailAddress;
 	}
 
-	private String mailAddress;
 
 }
