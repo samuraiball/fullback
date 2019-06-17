@@ -17,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -46,12 +48,13 @@ public class MemberApiTest {
 	private Role role = Role.ROLE_TEAM_MEMBER;
 
 
-	private Member expectedMember = new MemberBuilder()
+	private Member expectedMember1 = new MemberBuilder()
 			.withMemberId(memberId)
 			.withMemberName(memberName)
 			.withRole(role)
 			.withMailAddress(mailAddress)
 			.createMember();
+
 
 	private MemberRequestResource requestResource =
 			new MemberRequestResource(
@@ -68,9 +71,35 @@ public class MemberApiTest {
 	void setup() throws Exception {
 		mockMvc = MockMvcBuilders.standaloneSetup(memberController).build();
 		expectedMemberStr =
-				objectMapper.writeValueAsString(expectedMember);
+				objectMapper.writeValueAsString(expectedMember1);
 		requestResourceStr =
 				objectMapper.writeValueAsString(requestResource);
+	}
+
+
+	@Test
+	@Sql("classpath:META-INF/sql/init-tables.sql")
+	void getAllMembersApiTest() throws Exception {
+
+		Member expectedMember2 = new MemberBuilder()
+				.withMemberId("2")
+				.withMemberName("henohenomohezi2")
+				.withRole(Role.ROLE_TEAM_MEMBER)
+				.withMailAddress("henoheno2@mohe.zi")
+				.createMember();
+
+		List expectList = new ArrayList<Member>();
+
+		expectList.add(expectedMember1);
+		expectList.add(expectedMember2);
+
+		String expectMembersStr =
+				objectMapper.writeValueAsString(expectList);
+
+		// get data which inserted with init-tables.sql
+		mockMvc.perform(get("/members"))
+				.andExpect(status().isOk())
+				.andExpect(content().json(expectMembersStr));
 	}
 
 	@Test
@@ -101,7 +130,7 @@ public class MemberApiTest {
 		assertThat(dbResult.get("id")).isEqualTo(actual.getMemberId());
 		assertThat(dbResult.get("mail_address")).isEqualTo(actual.getMailAddress());
 		assertThat(dbResult.get("member_name")).isEqualTo(actual.getMemberName());
-		assertThat(dbResult.get("role")).isEqualTo("TEAM_MEMBER");
+		assertThat(dbResult.get("role")).isEqualTo("ROLE_TEAM_MEMBER");
 		assertThat(dbResult.get("password")).isNotNull();
 		assertThat(dbResult.get("password")).isNotEqualTo(password);
 

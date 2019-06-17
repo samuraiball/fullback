@@ -4,6 +4,7 @@ import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.dto.constraintsgroup.MemberFirstTimeValidationGroup;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 public class MemberRequestResource implements Serializable {
@@ -50,5 +51,4 @@ public class MemberRequestResource implements Serializable {
 	public Role getRole() {
 		return role;
 	}
-
 }
