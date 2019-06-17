@@ -5,6 +5,7 @@ import com.heno.fullback.model.entitiy.Member;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
+import org.seasar.doma.Update;
 import org.seasar.doma.boot.ConfigAutowireable;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @ConfigAutowireable
 public interface MemberDao {
 
-	@Select
+	@Select(ensureResult = true)
 	public Member selectById(String memberId);
 
 
@@ -25,4 +26,7 @@ public interface MemberDao {
 
 	@Insert
 	int insert(Member member);
+
+	@Update
+	int update(Member member);
 }

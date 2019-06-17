@@ -145,7 +145,21 @@ public class MemberApiTest {
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
 	void putMemberTest() throws Exception {
-		// TODO
+
+
+		MemberRequestResource requestResource =
+				new MemberRequestResource(
+						memberName,
+						password,
+						mailAddress,
+						Role.ROLE_TEAM_MEMBER);
+
+
+		MvcResult result = mockMvc.perform(post("/member")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestResourceStr))
+				.andExpect(status().isCreated())
+				.andReturn();
 	}
 
 	@Test

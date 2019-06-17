@@ -24,6 +24,8 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 
 	private final static String DEFAULT_ERROR_MESSAGE = "Something happened";
 
+
+	//FIXME:その他のエラーをハンドリングする。
 	private final Map<Class<? extends Exception>, String>
 			messageMapping = Collections
 			.unmodifiableMap(new LinkedHashMap() {{

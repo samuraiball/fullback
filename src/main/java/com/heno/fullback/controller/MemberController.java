@@ -1,14 +1,17 @@
 package com.heno.fullback.controller;
 
 import com.heno.fullback.model.dto.MemberRequestResource;
-import com.heno.fullback.model.dto.constraintsgroup.MemberFirstTimeValidationGroup;
+import com.heno.fullback.model.dto.constraintsgroup.MemberAddValidationGroup;
+import com.heno.fullback.model.dto.constraintsgroup.MemberUpdateValidationGroup;
 import com.heno.fullback.model.entitiy.Member;
 import com.heno.fullback.model.entitiy.builder.MemberBuilder;
 import com.heno.fullback.model.service.MemberService;
+import com.heno.fullback.security.MemberUserDetail;
 import jdk.jshell.spi.ExecutionControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -61,22 +64,22 @@ public class MemberController {
 	/**
 	 * Handler to add  a new Member.
 	 *
-	 * @param member New member's information
+	 * @param memberRequestResource New member's information
 	 * @return Created member's information and the URL
 	 */
 	@PostMapping("/member")
 	public ResponseEntity<Member> postMember(
-			@RequestBody @Validated(MemberFirstTimeValidationGroup.class)
-					MemberRequestResource member,
+			@RequestBody @Validated(MemberAddValidationGroup.class)
+					MemberRequestResource memberRequestResource,
 			UriComponentsBuilder uriBuilder
 	) {
 		Member createdMember = memberService.createMember(
 				new MemberBuilder()
 						.withMemberId(UUID.randomUUID().toString())
-						.withMemberName(member.getMemberName())
-						.withRole(member.getRole())
-						.withMailAddress(member.getMailAddress())
-						.withPassword(passwordEncoder.encode(member.getPassword()))
+						.withMemberName(memberRequestResource.getMemberName())
+						.withRole(memberRequestResource.getRole())
+						.withMailAddress(memberRequestResource.getMailAddress())
+						.withPassword(passwordEncoder.encode(memberRequestResource.getPassword()))
 						.createMember()
 		);
 
@@ -89,9 +92,22 @@ public class MemberController {
 	@PutMapping("/member")
 	@ResponseStatus(HttpStatus.OK)
 	public Member putUser(
-			@RequestBody @Validated MemberRequestResource memberRequestResource
-	) throws Exception {
-		throw new ExecutionControl.NotImplementedException("");
+			@RequestBody @Validated(MemberUpdateValidationGroup.class)
+					MemberRequestResource memberRequestResource,
+			@AuthenticationPrincipal
+					MemberUserDetail memberUserDetail
+	) {
+
+		//FIXME:Exceptionを作成する。
+		//FIXME:楽観ロックのハンドリング
+		if (!memberUserDetail.getMemberId().equals(memberRequestResource.getMemberId())) {
+			throw new RuntimeException();
+		}
+		return memberService.updateMember(
+				new MemberBuilder()
+						.withMemberId(memberRequestResource.getMemberId())
+						.withRole(memberRequestResource.getRole())
+						.createMember());
 	}
 
 	@DeleteMapping("/member/{memberId}")

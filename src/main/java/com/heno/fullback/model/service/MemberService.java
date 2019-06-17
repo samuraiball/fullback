@@ -9,4 +9,5 @@ public interface MemberService {
 	List<Member> getAllMembers();
 	Member createMember(Member member);
 	Member getMember(String memberId);
+	Member updateMember(Member member);
 }

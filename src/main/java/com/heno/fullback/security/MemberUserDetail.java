@@ -26,6 +26,10 @@ public class MemberUserDetail implements UserDetails {
 				.singleton(new SimpleGrantedAuthority( member.getRole().toString()));
 	}
 
+	public String getMemberId(){
+		return member.getMemberId();
+	}
+
 	@Override
 	public String getPassword() {
 		return member.getPassword();

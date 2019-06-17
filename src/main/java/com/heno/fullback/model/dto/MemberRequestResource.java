@@ -1,16 +1,17 @@
 package com.heno.fullback.model.dto;
 
 import com.heno.fullback.model.common.Role;
-import com.heno.fullback.model.dto.constraintsgroup.MemberFirstTimeValidationGroup;
+import com.heno.fullback.model.dto.constraintsgroup.MemberAddValidationGroup;
+import com.heno.fullback.model.dto.constraintsgroup.MemberUpdateValidationGroup;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 public class MemberRequestResource implements Serializable {
 
-	MemberRequestResource(){
+	MemberRequestResource() {
 	}
+
 
 	public MemberRequestResource(
 			String memberName,
@@ -24,17 +25,39 @@ public class MemberRequestResource implements Serializable {
 		this.role = role;
 	}
 
-	@NotNull
-	private  String memberName;
+	public MemberRequestResource(
+			String memberId,
+			String memberName,
+			String password,
+			String mailAddress,
+			Role role
+	) {
+		this.memberId = memberId;
+		this.memberName = memberName;
+		this.password = password;
+		this.mailAddress = mailAddress;
+		this.role = role;
+	}
+
+	@NotNull(groups = MemberUpdateValidationGroup.class)
+	private String memberId;
 
 	@NotNull
-	private  String mailAddress;
-
-	@NotNull(groups = MemberFirstTimeValidationGroup.class)
-	private  String password;
+	private String memberName;
 
 	@NotNull
-	private  Role role;
+	private String mailAddress;
+
+	@NotNull(groups = MemberAddValidationGroup.class)
+	private String password;
+
+	@NotNull
+	private Role role;
+
+
+	public String getMemberId() {
+		return memberId;
+	}
 
 	public String getMemberName() {
 		return memberName;
