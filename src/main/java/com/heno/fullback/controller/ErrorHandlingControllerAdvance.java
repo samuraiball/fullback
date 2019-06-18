@@ -1,12 +1,15 @@
 package com.heno.fullback.controller;
 
+import com.heno.fullback.exception.ForbiddenException;
 import com.heno.fullback.model.common.ErrorResource;
 import com.heno.fullback.model.common.builder.ErrorResourceBuilder;
+import org.seasar.doma.jdbc.OptimisticLockException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -31,6 +34,8 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 			.unmodifiableMap(new LinkedHashMap() {{
 				put(HttpMessageNotReadableException.class, "Request body is invalid");
 				put(NoHandlerFoundException.class, "Not Found");
+				put(ForbiddenException.class, "That request is forbidden");
+				put(OptimisticLockException.class, "The request is Conflicted");
 			}});
 
 	private final String errorMessageResolver(Exception ex, String defaultMessage) {
@@ -46,6 +51,16 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 				.withMessage(errorMessageResolver(ex, DEFAULT_ERROR_MESSAGE))
 				.withTime(LocalDateTime.now())
 				.createErrorResource();
+	}
+
+	@ExceptionHandler(ForbiddenException.class)
+	protected ResponseEntity<Object> handleForbiddenException(ForbiddenException ex, WebRequest request) {
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+	}
+
+	@ExceptionHandler(OptimisticLockException.class)
+	protected ResponseEntity<Object> handleOptimisticLockException(OptimisticLockException ex, WebRequest request) {
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
 	}
 
 	@Override

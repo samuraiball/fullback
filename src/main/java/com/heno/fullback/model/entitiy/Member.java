@@ -45,16 +45,13 @@ public class Member implements Serializable {
 	@Column(name = "role")
 	private Role role;
 
+
 	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 
 	public String getMemberId() {
 		return memberId;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public String getMemberName() {
@@ -67,5 +64,13 @@ public class Member implements Serializable {
 
 	public Role getRole() {
 		return role;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

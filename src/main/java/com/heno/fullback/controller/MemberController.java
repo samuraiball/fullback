@@ -1,5 +1,6 @@
 package com.heno.fullback.controller;
 
+import com.heno.fullback.exception.ForbiddenException;
 import com.heno.fullback.model.dto.MemberRequestResource;
 import com.heno.fullback.model.dto.constraintsgroup.MemberAddValidationGroup;
 import com.heno.fullback.model.dto.constraintsgroup.MemberUpdateValidationGroup;
@@ -30,14 +31,11 @@ import java.util.UUID;
 public class MemberController {
 
 	private final MemberService memberService;
-	private final PasswordEncoder passwordEncoder;
 
 	public MemberController(
-			MemberService memberService,
-			PasswordEncoder passwordEncoder
+			MemberService memberService
 	) {
 		this.memberService = memberService;
-		this.passwordEncoder = passwordEncoder;
 	}
 
 	/**
@@ -79,9 +77,8 @@ public class MemberController {
 						.withMemberName(memberRequestResource.getMemberName())
 						.withRole(memberRequestResource.getRole())
 						.withMailAddress(memberRequestResource.getMailAddress())
-						.withPassword(passwordEncoder.encode(memberRequestResource.getPassword()))
-						.createMember()
-		);
+						.withPassword(memberRequestResource.getPassword())
+						.createMember());
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(uriBuilder.path("/member/{memberId}")
@@ -97,14 +94,14 @@ public class MemberController {
 			@AuthenticationPrincipal
 					MemberUserDetail memberUserDetail
 	) {
-
-		//FIXME:Exceptionを作成する。
-		//FIXME:楽観ロックのハンドリング
-		if (!memberUserDetail.getMemberId().equals(memberRequestResource.getMemberId())) {
-			throw new RuntimeException();
+		if (!memberUserDetail.getMemberId()
+				.equals(memberRequestResource.getMemberId()) || !memberUserDetail.isAdmin()) {
+			throw new ForbiddenException();
 		}
+
 		return memberService.updateMember(
 				new MemberBuilder()
+						.withMailAddress(memberRequestResource.getMailAddress())
 						.withMemberId(memberRequestResource.getMemberId())
 						.withRole(memberRequestResource.getRole())
 						.createMember());

@@ -1,5 +1,6 @@
 package com.heno.fullback.security;
 
+import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.entitiy.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +29,10 @@ public class MemberUserDetail implements UserDetails {
 
 	public String getMemberId(){
 		return member.getMemberId();
+	}
+
+	public boolean isAdmin(){
+		return Role.ROLE_ADMIN.equals(this.member.getRole());
 	}
 
 	@Override
