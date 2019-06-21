@@ -219,10 +219,8 @@ class MemberApiTest {
 	}
 
 
-
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
-	//FIXME
 	void putMemberForbiddenTest() throws Exception {
 
 		MemberRequestResource requestResource =
