@@ -4,6 +4,10 @@ import com.heno.fullback.model.entitiy.Member;
 
 import java.util.List;
 
+/**
+ * MemberService InterFace.
+ * Deal with Member
+ */
 public interface MemberService {
 
 	List<Member> getAllMembers();

@@ -41,7 +41,7 @@ public class MemberController {
 	/**
 	 * Handler to get all Member's Information
 	 *
-	 * @return getAllMembers
+	 * @return All Members (includes deleted members)
 	 */
 	@GetMapping("/members")
 	public List<Member> getAllMembers() {
@@ -71,6 +71,7 @@ public class MemberController {
 					MemberRequestResource memberRequestResource,
 			UriComponentsBuilder uriBuilder
 	) {
+
 		Member createdMember = memberService.createMember(
 				new MemberBuilder()
 						.withMemberId(UUID.randomUUID().toString())
@@ -87,20 +88,29 @@ public class MemberController {
 		return new ResponseEntity(createdMember, headers, HttpStatus.CREATED);
 	}
 
+	/**
+	 * Handler to update a member info.
+	 * Allowed to Admin or when update own info
+	 *
+	 * @param memberRequestResource New member's information
+	 * @return Updated member's information and the URL
+	 */
 	@PutMapping("/member")
 	@ResponseStatus(HttpStatus.OK)
-	public Member putUser(
+	public ResponseEntity<Member> putUser(
 			@RequestBody @Validated(MemberUpdateValidationGroup.class)
 					MemberRequestResource memberRequestResource,
 			@AuthenticationPrincipal
-					MemberUserDetail memberUserDetail
+					MemberUserDetail memberUserDetail,
+			UriComponentsBuilder uriBuilder
 	) {
+
 		if (!memberUserDetail.getMemberId()
 				.equals(memberRequestResource.getMemberId()) && !memberUserDetail.isAdmin()) {
 			throw new ForbiddenException();
 		}
 
-		return memberService.updateMember(
+		Member updatedMember = memberService.updateMember(
 				new MemberBuilder()
 						.withMailAddress(memberRequestResource.getMailAddress())
 						.withMemberName(memberRequestResource.getMemberName())
@@ -108,8 +118,18 @@ public class MemberController {
 						.withPassword(memberRequestResource.getPassword())
 						.withRole(memberRequestResource.getRole())
 						.createMember());
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(uriBuilder.path("/member/{memberId}")
+				.buildAndExpand(updatedMember.getMemberId()).toUri());
+		return new ResponseEntity(updatedMember, headers, HttpStatus.OK);
 	}
 
+
+	/**
+	 * Handler to delete a member.
+	 * Allowed to Admin.
+	 */
 	@DeleteMapping("/member/{memberId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteUser(
@@ -117,10 +137,8 @@ public class MemberController {
 			@AuthenticationPrincipal
 					MemberUserDetail memberUserDetail
 	) throws Exception {
-		if (!memberUserDetail.getMemberId()
-				.equals(memberId) && !memberUserDetail.isAdmin()) {
-			throw new ForbiddenException();
-		}
+
+		if (!memberUserDetail.isAdmin()) throw new ForbiddenException();
 		memberService.deleteMember(memberId);
 	}
 }

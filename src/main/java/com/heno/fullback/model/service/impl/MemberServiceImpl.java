@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * MemberService.
+ * Deal with Member
+ */
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -24,16 +28,31 @@ public class MemberServiceImpl implements MemberService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	/**
+	 * Get All members
+	 *
+	 * @return Get all members (includes deleted members)
+	 */
 	@Override
 	public List<Member> getAllMembers() {
 		return memberDao.selectAll();
 	}
 
+	/**
+	 * Get a member.
+	 *
+	 * @return Get the member who defined by member id.
+	 */
 	@Override
 	public Member getMember(String memberId) {
 		return memberDao.selectById(memberId);
 	}
 
+	/**
+	 * Update the member.
+	 *
+	 * @return Updated member who defined by member id.
+	 */
 	@Override
 	public Member updateMember(Member member) {
 
@@ -54,6 +73,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	/**
+	 * Create a member.
+	 *
+	 * @return Created member who defined by member id.
+	 */
 	@Override
 	public Member createMember(Member member) {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
@@ -62,6 +86,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	/**
+	 * Delete the member.
+	 *
+	 * @return Deleted member who defined by member id.
+	 */
 	@Override
 	public void deleteMember(String memberId) {
 		Member member = memberDao.selectById(memberId);
