@@ -9,6 +9,16 @@ public class ErrorResource {
 		this.time = time;
 		this.message = message;
 	}
+
 	private final String message;
 	private final LocalDateTime time;
+
+
+	public String getMessage() {
+		return message;
+	}
+
+	public LocalDateTime getTime() {
+		return time;
+	}
 }

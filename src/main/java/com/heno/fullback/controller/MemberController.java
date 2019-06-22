@@ -8,14 +8,13 @@ import com.heno.fullback.model.entitiy.Member;
 import com.heno.fullback.model.entitiy.builder.MemberBuilder;
 import com.heno.fullback.model.service.MemberService;
 import com.heno.fullback.security.MemberUserDetail;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -28,6 +27,7 @@ import java.util.UUID;
  * @author Yuya Hirooka
  */
 @RestController
+@EnableWebMvc
 public class MemberController {
 
 	private final MemberService memberService;
@@ -78,6 +78,7 @@ public class MemberController {
 						.withRole(memberRequestResource.getRole())
 						.withMailAddress(memberRequestResource.getMailAddress())
 						.withPassword(memberRequestResource.getPassword())
+						.withDeleteFlag(false)
 						.createMember());
 
 		HttpHeaders headers = new HttpHeaders();
@@ -95,21 +96,31 @@ public class MemberController {
 					MemberUserDetail memberUserDetail
 	) {
 		if (!memberUserDetail.getMemberId()
-				.equals(memberRequestResource.getMemberId()) || !memberUserDetail.isAdmin()) {
+				.equals(memberRequestResource.getMemberId()) && !memberUserDetail.isAdmin()) {
 			throw new ForbiddenException();
 		}
 
 		return memberService.updateMember(
 				new MemberBuilder()
 						.withMailAddress(memberRequestResource.getMailAddress())
+						.withMemberName(memberRequestResource.getMemberName())
 						.withMemberId(memberRequestResource.getMemberId())
+						.withPassword(memberRequestResource.getPassword())
 						.withRole(memberRequestResource.getRole())
 						.createMember());
 	}
 
 	@DeleteMapping("/member/{memberId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Member deleteUser(@PathVariable String memberId) throws Exception {
-		throw new ExecutionControl.NotImplementedException("");
+	public void deleteUser(
+			@PathVariable String memberId,
+			@AuthenticationPrincipal
+					MemberUserDetail memberUserDetail
+	) throws Exception {
+		if (!memberUserDetail.getMemberId()
+				.equals(memberId) && !memberUserDetail.isAdmin()) {
+			throw new ForbiddenException();
+		}
+		memberService.deleteMember(memberId);
 	}
 }

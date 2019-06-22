@@ -1,5 +1,6 @@
 package com.heno.fullback.controller;
 
+import com.heno.fullback.exception.DataNotFoundException;
 import com.heno.fullback.exception.ForbiddenException;
 import com.heno.fullback.model.common.ErrorResource;
 import com.heno.fullback.model.common.builder.ErrorResourceBuilder;
@@ -25,17 +26,16 @@ import java.util.Map;
 @ControllerAdvice
 public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandler {
 
-	private final static String DEFAULT_ERROR_MESSAGE = "Something happened";
+	private final static String DEFAULT_ERROR_MESSAGE = "Something happened. Contact an Administrator";
 
-
-	//FIXME:その他のエラーをハンドリングする。
 	private final Map<Class<? extends Exception>, String>
 			messageMapping = Collections
 			.unmodifiableMap(new LinkedHashMap() {{
 				put(HttpMessageNotReadableException.class, "Request body is invalid");
 				put(NoHandlerFoundException.class, "Not Found");
-				put(ForbiddenException.class, "That request is forbidden");
+				put(ForbiddenException.class, "The request is forbidden");
 				put(OptimisticLockException.class, "The request is Conflicted");
+				put(DataNotFoundException.class, "The Data Not Found");
 			}});
 
 	private final String errorMessageResolver(Exception ex, String defaultMessage) {
@@ -60,7 +60,17 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 
 	@ExceptionHandler(OptimisticLockException.class)
 	protected ResponseEntity<Object> handleOptimisticLockException(OptimisticLockException ex, WebRequest request) {
-		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.CONFLICT, request);
+	}
+
+	@ExceptionHandler(DataNotFoundException.class)
+	protected ResponseEntity<Object> handleOptimisticLockException(DataNotFoundException ex, WebRequest request) {
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+
+	@ExceptionHandler(Exception.class)
+	protected ResponseEntity<Object> handleOptimisticLockException(Exception ex, WebRequest request) {
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 
 	@Override

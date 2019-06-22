@@ -1,5 +1,6 @@
 package com.heno.fullback.model.service.impl;
 
+import com.heno.fullback.exception.DataNotFoundException;
 import com.heno.fullback.model.entitiy.Member;
 import com.heno.fullback.model.repository.MemberDao;
 import com.heno.fullback.model.service.MemberService;
@@ -35,20 +36,39 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Member updateMember(Member member) {
+
+		Member targetMember = memberDao.selectById(member.getMemberId());
+
 		if (StringUtils.isEmpty(member.getPassword())) {
-			Member targetMember = memberDao.selectById(member.getMemberId());
 			member.setPassword(targetMember.getPassword());
-		}else {
+		} else {
 			member.setPassword(passwordEncoder.encode(member.getPassword()));
 		}
+
+		if (targetMember.isDeleted()) {
+			throw new DataNotFoundException();
+		}
+
 		memberDao.update(member);
 		return member;
 	}
+
 
 	@Override
 	public Member createMember(Member member) {
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberDao.insert(member);
 		return member;
+	}
+
+
+	@Override
+	public void deleteMember(String memberId) {
+		Member member = memberDao.selectById(memberId);
+		if (member.isDeleted()) {
+			throw new DataNotFoundException();
+		}
+		member.toggleDeleteFlag();
+		memberDao.update(member);
 	}
 }

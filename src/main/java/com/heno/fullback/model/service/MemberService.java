@@ -10,4 +10,5 @@ public interface MemberService {
 	Member createMember(Member member);
 	Member getMember(String memberId);
 	Member updateMember(Member member);
+	void deleteMember(String memberId);
 }

@@ -24,12 +24,14 @@ public class Member implements Serializable {
 	}
 
 	public Member(String memberId, String memberName,
-				  String mailAddress, String password, Role role) {
+				  String mailAddress, String password,
+				  Role role, boolean deleteFlag) {
 		this.memberId = memberId;
 		this.memberName = memberName;
 		this.password = password;
 		this.mailAddress = mailAddress;
 		this.role = role;
+		this.deleteFlag = deleteFlag;
 	}
 
 	@Id
@@ -45,6 +47,8 @@ public class Member implements Serializable {
 	@Column(name = "role")
 	private Role role;
 
+	@Column(name = "delete_flag")
+	private boolean deleteFlag;
 
 	@JsonIgnore
 	@Column(name = "password")
@@ -68,6 +72,14 @@ public class Member implements Serializable {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public boolean isDeleted() {
+		return deleteFlag;
+	}
+
+	public void toggleDeleteFlag(){
+		this.deleteFlag = !this.deleteFlag;
 	}
 
 	public void setPassword(String password) {

@@ -1,6 +1,7 @@
 package com.heno.fullback.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.heno.fullback.controller.ErrorHandlingControllerAdvance;
 import com.heno.fullback.controller.MemberController;
 import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.dto.MemberRequestResource;
@@ -14,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -30,9 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,7 +76,6 @@ class MemberApiTest {
 	private String expectedMemberStr;
 	private String requestResourceStr;
 
-
 	private HandlerMethodArgumentResolver putAuthenticationPrincipal = new HandlerMethodArgumentResolver() {
 		@Override
 		public boolean supportsParameter(MethodParameter parameter) {
@@ -98,7 +95,7 @@ class MemberApiTest {
 		}
 	};
 
-	private HandlerMethodArgumentResolver putForbiddenAuthenticationPrincipal = new HandlerMethodArgumentResolver() {
+	private HandlerMethodArgumentResolver putNotAdminAuthenticationPrincipal = new HandlerMethodArgumentResolver() {
 		@Override
 		public boolean supportsParameter(MethodParameter parameter) {
 			return parameter.getParameterType().isAssignableFrom(MemberUserDetail.class);
@@ -114,7 +111,6 @@ class MemberApiTest {
 							.createMember());
 		}
 	};
-
 
 	@BeforeEach
 	void setup() throws Exception {
@@ -170,34 +166,18 @@ class MemberApiTest {
 				.andExpect(status().isCreated())
 				.andReturn();
 
-		Member actual = objectMapper
-				.readValue(result.getResponse().getContentAsString(), Member.class);
-
-		// check if data is stored in DB
-		Map<String, Object> dbResult = jdbcTemplate
-				.queryForMap("select * from member where id = ? ", actual.getMemberId());
-		assertThat(dbResult.get("id")).isEqualTo(actual.getMemberId());
-		assertThat(dbResult.get("mail_address")).isEqualTo(actual.getMailAddress());
-		assertThat(dbResult.get("member_name")).isEqualTo(actual.getMemberName());
-		assertThat(dbResult.get("role")).isEqualTo("ROLE_TEAM_MEMBER");
-		assertThat(dbResult.get("password")).isNotNull();
-		assertThat(dbResult.get("password")).isNotEqualTo(password);
-
-		// assert returned value
-		assertThat(actual.getMemberId()).isNotNull();
-		assertThat(actual.getMailAddress()).isEqualTo(mailAddress);
-		assertThat(actual.getMemberName()).isEqualTo(memberName);
-		assertThat(actual.getPassword()).isNull();
+		dbAndResponseAssert(result);
 	}
 
-
+	// Update member with an admin authority,
+	// and someone else
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
-	void putMemberTest() throws Exception {
+	void putMemberWithAdminTest() throws Exception {
 
 		MemberRequestResource requestResource =
 				new MemberRequestResource(
-						memberId,
+						"2",
 						memberName,
 						password,
 						mailAddress,
@@ -216,12 +196,15 @@ class MemberApiTest {
 				.content(requestResourceStr))
 				.andExpect(status().isOk())
 				.andReturn();
+
+		dbAndResponseAssert(result);
 	}
 
-
+	// Update member without an admin authority,
+	// but my self
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
-	void putMemberForbiddenTest() throws Exception {
+	void putMemberWithTest() throws Exception {
 
 		MemberRequestResource requestResource =
 				new MemberRequestResource(
@@ -236,19 +219,106 @@ class MemberApiTest {
 
 		mockMvc = MockMvcBuilders
 				.standaloneSetup(memberController)
-				.setCustomArgumentResolvers(putForbiddenAuthenticationPrincipal)
+				.setCustomArgumentResolvers(putNotAdminAuthenticationPrincipal)
 				.build();
 
 		MvcResult result = mockMvc.perform(put("/member")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(requestResourceStr))
-				.andExpect(status().isForbidden())
+				.andExpect(status().isOk())
 				.andReturn();
+
+		dbAndResponseAssert(result);
+	}
+
+	// Update member without an admin authority,
+	// and someone else
+	@Test
+	@Sql("classpath:META-INF/sql/init-tables.sql")
+	void putMemberForbiddenTest() throws Exception {
+
+		MemberRequestResource requestResource =
+				new MemberRequestResource(
+						"2",
+						memberName,
+						password,
+						mailAddress,
+						Role.ROLE_TEAM_MEMBER);
+
+		String requestResourceStr =
+				objectMapper.writeValueAsString(requestResource);
+
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(memberController)
+				.setCustomArgumentResolvers(putNotAdminAuthenticationPrincipal)
+				.setControllerAdvice(new ErrorHandlingControllerAdvance())
+				.build();
+
+		mockMvc.perform(put("/member")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestResourceStr))
+				.andExpect(status().isForbidden());
 	}
 
 	@Test
 	@Sql("classpath:META-INF/sql/init-tables.sql")
 	void deleteMemberTest() throws Exception {
-		// TODO
+
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(memberController)
+				.setCustomArgumentResolvers(putAuthenticationPrincipal)
+				.build();
+
+		mockMvc.perform(delete("/member/" + memberId))
+				.andExpect(status().isNoContent());
+
+		Map<String, Object> dbResult = jdbcTemplate
+				.queryForMap("select * from member where id = ? ", memberId);
+
+		assertThat(dbResult.get("delete_flag")).isEqualTo(true);
+	}
+
+
+	@Test
+	@Sql("classpath:META-INF/sql/init-tables.sql")
+	void deleteAlreadyDeletedMemberTest() throws Exception {
+
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(memberController)
+				.setCustomArgumentResolvers(putAuthenticationPrincipal)
+				.setControllerAdvice(new ErrorHandlingControllerAdvance())
+				.build();
+
+		// delete member who has memberId first time
+		mockMvc.perform(delete("/member/" + memberId))
+				.andExpect(status().isNoContent());
+
+		// delete member who has memberId second time
+		mockMvc.perform(delete("/member/" + memberId))
+				.andExpect(status().isNotFound());
+	}
+
+
+	private void dbAndResponseAssert(MvcResult result) throws Exception {
+		Member actual = objectMapper
+				.readValue(result.getResponse().getContentAsString(), Member.class);
+
+		// check if data is stored in DB
+		Map<String, Object> dbResult = jdbcTemplate
+				.queryForMap("select * from member where id = ? ", actual.getMemberId());
+
+		assertThat(dbResult.get("id")).isEqualTo(actual.getMemberId());
+		assertThat(dbResult.get("mail_address")).isEqualTo(actual.getMailAddress());
+		assertThat(dbResult.get("member_name")).isEqualTo(actual.getMemberName());
+		assertThat(dbResult.get("role")).isEqualTo("ROLE_TEAM_MEMBER");
+		assertThat(dbResult.get("password")).isNotNull();
+		assertThat(dbResult.get("password")).isNotEqualTo(password);
+		assertThat(dbResult.get("delete_flag")).isEqualTo(false);
+
+		// assert returned value
+		assertThat(actual.getMemberId()).isNotNull();
+		assertThat(actual.getMailAddress()).isEqualTo(mailAddress);
+		assertThat(actual.getMemberName()).isEqualTo(memberName);
+		assertThat(actual.getPassword()).isNull();
 	}
 }

@@ -9,6 +9,7 @@ public class MemberBuilder {
 	private String mailAddress;
 	private String password;
 	private Role role;
+	private boolean deleteFlag;
 
 	public MemberBuilder withMemberId(String memberId) {
 		this.memberId = memberId;
@@ -35,7 +36,12 @@ public class MemberBuilder {
 		return this;
 	}
 
+	public MemberBuilder withDeleteFlag(boolean deleteFlag) {
+		this.deleteFlag = deleteFlag;
+		return this;
+	}
+
 	public Member createMember() {
-		return new Member(memberId, memberName, mailAddress, password, role);
+		return new Member(memberId, memberName, mailAddress, password, role, deleteFlag);
 	}
 }
