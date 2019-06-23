@@ -2,6 +2,7 @@ package com.heno.fullback.config;
 
 import com.heno.fullback.security.JsonUserPassAuthFilter;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
+import java.net.http.HttpRequest;
 import java.security.SecureRandom;
 
 @EnableWebSecurity
@@ -23,8 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		http.authorizeRequests()
-				.mvcMatchers("/member/*").hasAnyRole("PRODUCT_OWNER", "SCRUM_MASTER")
-				.mvcMatchers("/member").hasAnyRole("PRODUCT_OWNER", "SCRUM_MASTER");
+				.mvcMatchers(HttpMethod.GET, "/api/member/*").permitAll()
+				.mvcMatchers(HttpMethod.GET, "/api/members").permitAll()
+				.mvcMatchers(HttpMethod.POST, "/api/member").hasAnyRole("PRODUCT_OWNER", "ADMIN")
+				.mvcMatchers(HttpMethod.DELETE, "/api/member/*").hasAnyRole("PRODUCT_OWNER", "ADMIN")
+				.mvcMatchers(HttpMethod.PUT, "/api/member").permitAll();
 
 		JsonUserPassAuthFilter jsonUserPassAuthFilter =
 				new JsonUserPassAuthFilter(authenticationManager());

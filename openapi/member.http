@@ -3,7 +3,7 @@ POST http://localhost:8080/login
 Content-Type: application/json
 
 {
-  "username": "henoheno1@mohe.zi",
+  "username": "henoheno@mohe.zi",
   "password": "password"
 }
 
@@ -11,19 +11,31 @@ Content-Type: application/json
 GET http://localhost:8080/logout
 
 ### メンバーの追加
-POST http://localhost:8080/member
+POST http://localhost:8080/api/member
 Content-Type: application/json
 
 {
-  "memberName": "へのへのもへじ",
-  "mailAddress": "henoheno@mohe.zi",
+  "memberName": "へのへのもへじ1",
+  "mailAddress": "henoheno1@mohe.zi",
   "password": "password",
   "role": "TEAM_MEMBER"
 }
 
 ### メンバーの取得
-GET http://localhost:8080/member/c0b5d997-3337-41c9-8857-367376c3d4bf
+GET http://localhost:8080/api/member/****
 
 ### メンバー情報の更新
+PUT  http://localhost:8080/api/member
+Content-Type: application/json
+
+{
+  "memberId": "****",
+  "memberName": "へのへのもへじ,もへ",
+  "mailAddress": "henoheno1@mohe.zi",
+  "password": "password",
+  "role": "TEAM_MEMBER"
+}
 
 ### メンバーの削除
+DELETE  http://localhost:8080/api/member/****
+

@@ -27,7 +27,7 @@ import java.util.UUID;
  * @author Yuya Hirooka
  */
 @RestController
-@EnableWebMvc
+@RequestMapping("/api")
 public class MemberController {
 
 	private final MemberService memberService;

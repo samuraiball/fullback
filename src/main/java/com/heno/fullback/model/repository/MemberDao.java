@@ -17,8 +17,7 @@ public interface MemberDao {
 	@Select(ensureResult = true)
 	public Member selectById(String memberId);
 
-
-	@Select(ensureResult = true)
+	@Select
 	public Member selectByMailAddress(String mailAddress);
 
 	@Select

@@ -1,5 +1,6 @@
 package com.heno.fullback.model.service.impl;
 
+import com.heno.fullback.exception.DataAlreadyExistsException;
 import com.heno.fullback.exception.DataNotFoundException;
 import com.heno.fullback.model.entitiy.Member;
 import com.heno.fullback.model.repository.MemberDao;
@@ -13,6 +14,7 @@ import java.util.List;
 /**
  * MemberService.
  * Deal with Member
+ * FIXME:データ検証のリファクタリング
  */
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -80,6 +82,9 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public Member createMember(Member member) {
+		if (memberDao.selectByMailAddress(member.getMailAddress()) != null) {
+			throw new DataAlreadyExistsException();
+		}
 		member.setPassword(passwordEncoder.encode(member.getPassword()));
 		memberDao.insert(member);
 		return member;
@@ -94,6 +99,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(String memberId) {
 		Member member = memberDao.selectById(memberId);
+		if (memberDao.selectByMailAddress(member.getMailAddress()) != null) {
+			throw new DataAlreadyExistsException();
+		}
 		if (member.isDeleted()) {
 			throw new DataNotFoundException();
 		}

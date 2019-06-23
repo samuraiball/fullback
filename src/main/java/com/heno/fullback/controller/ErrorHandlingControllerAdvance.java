@@ -1,5 +1,6 @@
 package com.heno.fullback.controller;
 
+import com.heno.fullback.exception.DataAlreadyExistsException;
 import com.heno.fullback.exception.DataNotFoundException;
 import com.heno.fullback.exception.ForbiddenException;
 import com.heno.fullback.model.common.ErrorResource;
@@ -35,7 +36,8 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 				put(NoHandlerFoundException.class, "Not Found");
 				put(ForbiddenException.class, "The request is forbidden");
 				put(OptimisticLockException.class, "The request is Conflicted");
-				put(DataNotFoundException.class, "The Data Not Found");
+				put(DataNotFoundException.class, "The Data which you requested is Not Found");
+				put(DataAlreadyExistsException.class, "The Data which you POSTed already exists");
 			}});
 
 	private final String errorMessageResolver(Exception ex, String defaultMessage) {
@@ -64,10 +66,16 @@ public class ErrorHandlingControllerAdvance extends ResponseEntityExceptionHandl
 	}
 
 	@ExceptionHandler(DataNotFoundException.class)
-	protected ResponseEntity<Object> handleOptimisticLockException(DataNotFoundException ex, WebRequest request) {
+	protected ResponseEntity<Object> handleDataNotFoundException(DataNotFoundException ex, WebRequest request) {
 		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 
+	@ExceptionHandler(DataAlreadyExistsException.class)
+	protected ResponseEntity<Object> handleDataAlreadyExistsException(DataAlreadyExistsException ex, WebRequest request) {
+		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+	}
+
+	// Global Error Handling
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<Object> handleOptimisticLockException(Exception ex, WebRequest request) {
 		return handleExceptionInternal(ex, createErrorResource(ex), new HttpHeaders(), HttpStatus.NOT_FOUND, request);
