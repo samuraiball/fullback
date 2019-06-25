@@ -34,9 +34,8 @@ public class TaskController {
 
 	@DeleteMapping("/task/{taskId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public Task deleteTask(
+	public void deleteTask(
 			@PathVariable String taskId
 	) {
-		return null;
 	}
 }
