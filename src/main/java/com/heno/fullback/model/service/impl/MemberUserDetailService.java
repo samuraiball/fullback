@@ -1,4 +1,4 @@
-package com.heno.fullback.model.service;
+package com.heno.fullback.model.service.impl;
 
 import com.heno.fullback.model.entitiy.Member;
 import com.heno.fullback.model.repository.MemberDao;
