@@ -14,6 +14,7 @@ import java.util.List;
 @ConfigAutowireable
 public interface MemberDao {
 
+
 	@Select(ensureResult = true)
 	public Member selectById(String memberId);
 
