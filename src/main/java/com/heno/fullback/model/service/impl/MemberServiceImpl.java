@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * MemberService.
@@ -99,12 +100,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void deleteMember(String memberId) {
 		Member member = memberDao.selectById(memberId);
-		if (memberDao.selectByMailAddress(member.getMailAddress()) != null) {
-			throw new DataAlreadyExistsException();
-		}
-		if (member.isDeleted()) {
+
+		if (member == null || member.isDeleted()) {
 			throw new DataNotFoundException();
 		}
+
 		member.toggleDeleteFlag();
 		memberDao.update(member);
 	}
