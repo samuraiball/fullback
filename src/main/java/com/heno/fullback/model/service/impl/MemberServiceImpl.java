@@ -75,14 +75,13 @@ public class MemberServiceImpl implements MemberService {
 		return member;
 	}
 
-
 	/**
 	 * Create a member.
 	 *
 	 * @return Created member who defined by member id.
 	 */
 	@Override
-	public Member createMember(Member member) {
+	public Member create(Member member) {
 		if (memberDao.selectByMailAddress(member.getMailAddress()) != null) {
 			throw new DataAlreadyExistsException();
 		}

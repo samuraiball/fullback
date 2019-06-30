@@ -16,7 +16,13 @@ public class TaskServiceImpl implements TaskService {
 
 
 	@Override
+	public Task getTask(String taskId) {
+		return taskDao.selectById(taskId);
+	}
+
+	@Override
 	public Task create(Task task) {
-		return null;
+		taskDao.insert(task);
+		return task;
 	}
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public interface MemberService {
 
 	List<Member> getAllMembers();
-	Member createMember(Member member);
+	Member create(Member member);
 	Member getMember(String memberId);
 	Member updateMember(Member member);
 	void deleteMember(String memberId);

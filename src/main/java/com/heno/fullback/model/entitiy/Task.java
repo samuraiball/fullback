@@ -11,6 +11,24 @@ import java.sql.Timestamp;
 @Entity
 public class Task implements Serializable {
 
+	public Task(
+			String taskId, String sprintId,
+			String taskName, String description,
+			String inChange, Status taskStatus,
+			Timestamp createdDate, Timestamp update_time,
+			boolean deleted_flag
+	) {
+		this.taskId = taskId;
+		this.sprintId = sprintId;
+		this.taskName = taskName;
+		this.description = description;
+		this.inChange = inChange;
+		this.taskStatus = taskStatus;
+		this.createdDate = createdDate;
+		this.update_time = update_time;
+		this.deleted_flag = deleted_flag;
+	}
+
 	@Id
 	@Column(name = "task_id")
 	private String taskId;
@@ -24,11 +42,33 @@ public class Task implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "update_time")
-	private Timestamp update_time;
+
+	@Column(name = "member_id")
+	private String inChange;
 
 	@Column(name = "task_status")
 	private Status taskStatus;
+
+	@Column(name = "created_date")
+	private Timestamp createdDate;
+
+	@Column(name = "update_time")
+	private Timestamp update_time;
+
+	@Column(name = "deleted_flag")
+	private boolean deleted_flag;
+
+	public String getInChange() {
+		return inChange;
+	}
+
+	public Timestamp getCreatedDate() {
+		return createdDate;
+	}
+
+	public boolean isDeleted_flag() {
+		return deleted_flag;
+	}
 
 	public String getTaskId() {
 		return taskId;

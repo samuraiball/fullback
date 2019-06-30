@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
@@ -72,7 +71,7 @@ public class MemberController {
 			UriComponentsBuilder uriBuilder
 	) {
 
-		Member createdMember = memberService.createMember(
+		Member createdMember = memberService.create(
 				new MemberBuilder()
 						.withMemberId(UUID.randomUUID().toString())
 						.withMemberName(memberRequestResource.getMemberName())
