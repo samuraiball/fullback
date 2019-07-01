@@ -50,7 +50,7 @@ public class MemberController {
 	/**
 	 * Handler to get  Member's Information that Member is specified by ID.
 	 *
-	 * @param memberId User id that you want to get the Information
+	 * @param memberId Member id that you want to get the Information
 	 * @return Member
 	 */
 	@GetMapping("/member/{memberId}")

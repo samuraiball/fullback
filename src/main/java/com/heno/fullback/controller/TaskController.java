@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,11 +26,18 @@ public class TaskController {
 	}
 
 
-	@GetMapping("/tasks/{taskId}")
-	public Task getAllTask(
+	/**
+	 * Handler to get  task's Information that Member is specified by ID.
+	 *
+	 * @param taskId task id that you want to get the Information
+	 * @return Member
+	 */
+	@GetMapping("/tasks")
+	public List<Task> getAllTask(
 			@PathVariable String taskId
 	) {
-		return taskService.getTask(taskId);
+		taskService.getTask(taskId);
+		return null;
 	}
 
 
