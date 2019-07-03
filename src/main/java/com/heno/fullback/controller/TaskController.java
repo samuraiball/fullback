@@ -36,8 +36,8 @@ public class TaskController {
 	public List<Task> getAllTask(
 			@PathVariable String taskId
 	) {
-		taskService.getTask(taskId);
-		return null;
+		Task task = taskService.getTask(taskId);
+		return ;
 	}
 
 

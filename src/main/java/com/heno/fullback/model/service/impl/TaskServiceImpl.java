@@ -5,6 +5,8 @@ import com.heno.fullback.model.repository.TaskDao;
 import com.heno.fullback.model.service.TaskService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TaskServiceImpl implements TaskService {
 
@@ -14,6 +16,11 @@ public class TaskServiceImpl implements TaskService {
 		this.taskDao = taskDao;
 	}
 
+
+	@Override
+	public List<Task> getAllTask(Task task) {
+		return taskDao.selectAll();
+	}
 
 	@Override
 	public Task getTask(String taskId) {

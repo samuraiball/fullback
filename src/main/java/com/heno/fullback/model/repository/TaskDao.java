@@ -6,12 +6,17 @@ import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @ConfigAutowireable
 public interface TaskDao {
 
 	@Select(ensureResult = true)
-	public Task selectById(String taskId);
+	Task selectById(String taskId);
+
+	@Select
+	List<Task> selectAll();
 
 	@Insert
 	int insert(Task task);
