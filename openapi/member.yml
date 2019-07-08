@@ -1,4 +1,115 @@
 openapi: 3.0.0
-  info:
-    title: member api
-    version: 0.0.1
+info:
+  title: Member API
+  version: 0.0.1
+servers:
+  - url: http:localhost:8081
+    description: local execution
+paths:
+  /member:
+    summary: Register a member
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/book"
+      responses:
+        '201':
+          description: the book successfully registered
+  /book/{bookId}:
+    get:
+      summary: get a book by ID
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: parameter that to difine the book.
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: book defined by ID
+          content:
+            appication/json:
+              schema:
+                $ref: '#/components/schemas/respnse_book'
+    delete:
+      summary: delete a book
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: parameter that to difine to delete tha book
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '204':
+          description: NO content
+  /book/activity/{bookId}:
+    put:
+      summary: change an activity
+      parameters:
+        - name: bookId
+          in: path
+          required: true
+          description: paramerter taha to difine to chaenge activity of book
+          schema:
+            type: integer
+            format: int64
+            minimum: 0
+      responses:
+        '200':
+          description: book that is changed the activity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/respnse_book'
+
+components:
+  schemas:
+    book:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Effective Java
+        url:
+          type: string
+          example: http://localhost
+        description:
+          type: string
+          example: this is description
+        genre:
+          type: string
+          example: IT
+      required:
+        - title
+    respnse_book:
+      type: object
+      properties:
+        userId:
+          example: 150e8400-er9b-41d4-a716-44h6554a0000
+          pattern: '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b'
+        bookId:
+          type: string
+          example: 550e8400-e29b-41d4-a716-446655440000
+          pattern: '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b'
+        title:
+          type: string
+          example: Effective Java
+        url:
+          type: string
+          example: http://localhost
+        description:
+          type: string
+          example: this is description
+        genre:
+          type: string
+          example: IT
+        active:
+          type: boolean
