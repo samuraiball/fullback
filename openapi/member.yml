@@ -17,32 +17,32 @@ paths:
               $ref: "#/components/schemas/book"
       responses:
         '201':
-          description: the book successfully registered
-  /book/{bookId}:
+          description: A member is successfully registered
+  /member/{memberId}:
     get:
-      summary: get a book by ID
+      summary: get a Member by ID
       parameters:
-        - name: bookId
+        - name: memberId
           in: path
           required: true
-          description: parameter that to difine the book.
+          description: parameter that to difine member.
           schema:
             type: string
 
       responses:
         '200':
-          description: book defined by ID
+          description: member defined by ID
           content:
             appication/json:
               schema:
                 $ref: '#/components/schemas/respnse_book'
     delete:
-      summary: delete a book
+      summary: delete a member
       parameters:
-        - name: bookId
+        - name: memberId
           in: path
           required: true
-          description: parameter that to difine to delete tha book
+          description: parameter that to difine to delete member book
           schema:
             type: integer
             format: int64
