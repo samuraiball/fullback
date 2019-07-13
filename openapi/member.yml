@@ -14,10 +14,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/book"
+              $ref: '#/components/schemas/update_member'
       responses:
         '201':
           description: A member is successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_member'
+    put:
+      summary: update member info
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/member"
+      responses:
+        '200':
+          description: the memberId is successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/response_member'
   /member/{memberId}:
     get:
       summary: get a Member by ID
@@ -28,14 +47,13 @@ paths:
           description: parameter that to difine member.
           schema:
             type: string
-
       responses:
         '200':
           description: member defined by ID
           content:
             appication/json:
               schema:
-                $ref: '#/components/schemas/respnse_book'
+                $ref: '#/components/schemas/response_member'
     delete:
       summary: delete a member
       parameters:
@@ -50,66 +68,53 @@ paths:
       responses:
         '204':
           description: NO content
-  /book/activity/{bookId}:
-    put:
-      summary: change an activity
-      parameters:
-        - name: bookId
-          in: path
-          required: true
-          description: paramerter taha to difine to chaenge activity of book
-          schema:
-            type: integer
-            format: int64
-            minimum: 0
-      responses:
-        '200':
-          description: book that is changed the activity
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/respnse_book'
 
 components:
   schemas:
-    book:
+    member:
       type: object
       properties:
-        title:
+        memberName:
           type: string
-          example: Effective Java
-        url:
+          example: henohenomehezi
+        mailAddress:
           type: string
-          example: http://localhost
-        description:
+          example: henoheno1@mohe.zi
+        password:
           type: string
-          example: this is description
-        genre:
+          example: password
+        role:
           type: string
-          example: IT
+          example: TEAM_MEMBER
       required:
-        - title
-    respnse_book:
+        - memberName
+        - mailAddress
+        - password
+        - role
+    response_member:
       type: object
       properties:
-        userId:
+        memberId:
           example: 150e8400-er9b-41d4-a716-44h6554a0000
           pattern: '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b'
-        bookId:
+        mailAddress:
           type: string
-          example: 550e8400-e29b-41d4-a716-446655440000
-          pattern: '\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b'
-        title:
+          example: henoheno1@mohe.zi
+        role:
           type: string
-          example: Effective Java
-        url:
+          example: TEAM_MEMBER
+    update_member:
+      type: object
+      properties:
+        memberName:
           type: string
-          example: http://localhost
-        description:
+          example: henohenomehezi
+        mailAddress:
           type: string
-          example: this is description
-        genre:
+          example: henoheno1@mohe.zi
+        password:
           type: string
-          example: IT
-        active:
-          type: boolean
+          example: password
+        role:
+          type: string
+          example: TEAM_MEMBER
