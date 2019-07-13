@@ -1,6 +1,6 @@
 package com.heno.fullback.model.repository;
 
-import com.heno.fullback.model.entitiy.Task;
+import com.heno.fullback.model.valueobject.Task;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.boot.ConfigAutowireable;

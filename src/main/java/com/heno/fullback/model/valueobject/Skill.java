@@ -1,4 +1,4 @@
-package com.heno.fullback.model.entitiy;
+package com.heno.fullback.model.valueobject;
 
 import java.io.Serializable;
 

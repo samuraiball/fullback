@@ -1,4 +1,4 @@
-package com.heno.fullback.model.entitiy;
+package com.heno.fullback.model.valueobject;
 
 import com.heno.fullback.model.common.Status;
 import org.seasar.doma.Column;
@@ -15,6 +15,7 @@ public class Task implements Serializable {
 			String taskId, String sprintId,
 			String taskName, String description,
 			String inChange, Status taskStatus,
+			Integer workTime,
 			Timestamp createdDate, Timestamp update_time,
 			boolean deleted_flag
 	) {
@@ -22,6 +23,7 @@ public class Task implements Serializable {
 		this.sprintId = sprintId;
 		this.taskName = taskName;
 		this.description = description;
+		this.workTime = workTime;
 		this.inChange = inChange;
 		this.taskStatus = taskStatus;
 		this.createdDate = createdDate;
@@ -42,6 +44,8 @@ public class Task implements Serializable {
 	@Column(name = "description")
 	private String description;
 
+	@Column(name = "work_time")
+	private Integer workTime;
 
 	@Column(name = "member_id")
 	private String inChange;
@@ -92,5 +96,9 @@ public class Task implements Serializable {
 
 	public Status getTaskStatus() {
 		return taskStatus;
+	}
+
+	public Integer getWorkTime(){
+		return workTime;
 	}
 }

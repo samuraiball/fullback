@@ -5,7 +5,7 @@ import com.heno.fullback.controller.ErrorHandlingControllerAdvance;
 import com.heno.fullback.controller.MemberController;
 import com.heno.fullback.model.common.Role;
 import com.heno.fullback.model.dto.MemberRequestResource;
-import com.heno.fullback.model.entitiy.Member;
+import com.heno.fullback.model.valueobject.Member;
 import com.heno.fullback.model.entitiy.builder.MemberBuilder;
 import com.heno.fullback.security.MemberUserDetail;
 import org.junit.jupiter.api.BeforeEach;

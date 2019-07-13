@@ -1,8 +1,8 @@
-package com.heno.fullback.model.service.impl;
+package com.heno.fullback.model.domainservice.impl;
 
 import com.heno.fullback.exception.DataNotFoundException;
 import com.heno.fullback.model.common.Role;
-import com.heno.fullback.model.entitiy.Member;
+import com.heno.fullback.model.valueobject.Member;
 import com.heno.fullback.model.entitiy.builder.MemberBuilder;
 import com.heno.fullback.model.repository.MemberDao;
 import org.junit.jupiter.api.BeforeEach;

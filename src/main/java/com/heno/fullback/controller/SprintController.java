@@ -2,9 +2,9 @@ package com.heno.fullback.controller;
 
 import com.heno.fullback.model.common.Status;
 import com.heno.fullback.model.dto.TaskResource;
-import com.heno.fullback.model.entitiy.Task;
+import com.heno.fullback.model.valueobject.Task;
 import com.heno.fullback.model.entitiy.builder.TaskBuilder;
-import com.heno.fullback.model.service.TaskService;
+import com.heno.fullback.model.domainservice.TaskService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +17,24 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-public class TaskController {
+public class SprintController {
 
 	TaskService taskService;
 
-	public TaskController(TaskService taskService) {
+	public SprintController(TaskService taskService) {
 		this.taskService = taskService;
 	}
-
 
 	/**
 	 * Handler to get  task's Information that Member is specified by ID.
 	 *
-	 * @param taskId task id that you want to get the Information
-	 * @return Member
+	 * @return List of tasks
 	 */
-	@GetMapping("/tasks")
-	public List<Task> getAllTask(
-			@PathVariable String taskId
+	@GetMapping("/tasks/{sprintId}")
+	public List<Task> getAllTasks(
+			@PathVariable String sprintId
 	) {
-		Task task = taskService.getTask(taskId);
-		return ;
+		return taskService.getAllTasks();
 	}
 
 

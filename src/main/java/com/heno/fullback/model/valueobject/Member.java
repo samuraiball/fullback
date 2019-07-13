@@ -1,4 +1,4 @@
-package com.heno.fullback.model.entitiy;
+package com.heno.fullback.model.valueobject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.heno.fullback.model.common.Role;

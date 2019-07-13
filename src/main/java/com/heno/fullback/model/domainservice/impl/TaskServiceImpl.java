@@ -1,8 +1,8 @@
-package com.heno.fullback.model.service.impl;
+package com.heno.fullback.model.domainservice.impl;
 
-import com.heno.fullback.model.entitiy.Task;
+import com.heno.fullback.model.valueobject.Task;
 import com.heno.fullback.model.repository.TaskDao;
-import com.heno.fullback.model.service.TaskService;
+import com.heno.fullback.model.domainservice.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class TaskServiceImpl implements TaskService {
 
 
 	@Override
-	public List<Task> getAllTask(Task task) {
+	public List<Task> getAllTasks() {
 		return taskDao.selectAll();
 	}
 
