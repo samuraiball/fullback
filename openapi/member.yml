@@ -6,6 +6,12 @@ servers:
   - url: http:localhost:8081
     description: local execution
 paths:
+  /members:
+    summary: get all members
+    get:
+      responses:
+        '200':
+          description: list of members sorted by memberId
   /member:
     summary: Register a member
     post:
