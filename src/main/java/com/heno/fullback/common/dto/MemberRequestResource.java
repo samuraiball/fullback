@@ -1,8 +1,8 @@
-package com.heno.fullback.model.dto;
+package com.heno.fullback.common.dto;
 
-import com.heno.fullback.model.common.Role;
-import com.heno.fullback.model.dto.constraintsgroup.MemberAddValidationGroup;
-import com.heno.fullback.model.dto.constraintsgroup.MemberUpdateValidationGroup;
+import com.heno.fullback.model.states.Role;
+import com.heno.fullback.common.dto.constraintsgroup.MemberAddValidationGroup;
+import com.heno.fullback.common.dto.constraintsgroup.MemberUpdateValidationGroup;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;

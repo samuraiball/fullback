@@ -1,4 +1,4 @@
-package com.heno.fullback.security;
+package com.heno.fullback.common.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationDetailsSource;

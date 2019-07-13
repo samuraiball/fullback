@@ -1,4 +1,4 @@
-package com.heno.fullback.model.common;
+package com.heno.fullback.model.states;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

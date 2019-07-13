@@ -1,4 +1,4 @@
-package com.heno.fullback.model.common;
+package com.heno.fullback.common.dto;
 
 import java.time.LocalDateTime;
 

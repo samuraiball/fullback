@@ -1,9 +1,9 @@
 package com.heno.fullback.model.domainservice.impl;
 
-import com.heno.fullback.exception.DataAlreadyExistsException;
-import com.heno.fullback.exception.DataNotFoundException;
+import com.heno.fullback.common.exception.DataAlreadyExistsException;
+import com.heno.fullback.common.exception.DataNotFoundException;
 import com.heno.fullback.model.valueobject.Member;
-import com.heno.fullback.model.repository.MemberDao;
+import com.heno.fullback.repository.MemberDao;
 import com.heno.fullback.model.domainservice.MemberService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;

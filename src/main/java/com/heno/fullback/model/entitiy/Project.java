@@ -1,13 +1,9 @@
 package com.heno.fullback.model.entitiy;
 
-import com.heno.fullback.model.valueobject.Member;
-import org.seasar.doma.Entity;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
-@Entity
 public class Project implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,6 +13,10 @@ public class Project implements Serializable {
 	private String projectName;
 
 	private Integer sprintPeriodDays;
+
+	private Date startDate;
+
+	private Date periodDate;
 
 	private List<Sprint> sprints;
 

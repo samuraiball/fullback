@@ -1,7 +1,7 @@
 package com.heno.fullback.model.domainservice.impl;
 
 import com.heno.fullback.model.valueobject.Task;
-import com.heno.fullback.model.repository.TaskDao;
+import com.heno.fullback.repository.TaskDao;
 import com.heno.fullback.model.domainservice.TaskService;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.heno.fullback.exception;
+package com.heno.fullback.common.exception;
 
 public class DataAlreadyExistsException extends RuntimeException{
 }

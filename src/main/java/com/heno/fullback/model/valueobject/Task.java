@@ -1,6 +1,6 @@
 package com.heno.fullback.model.valueobject;
 
-import com.heno.fullback.model.common.Status;
+import com.heno.fullback.model.states.Status;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;

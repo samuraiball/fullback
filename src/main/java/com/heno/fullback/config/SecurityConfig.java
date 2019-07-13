@@ -1,6 +1,6 @@
 package com.heno.fullback.config;
 
-import com.heno.fullback.security.JsonUserPassAuthFilter;
+import com.heno.fullback.common.security.JsonUserPassAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,6 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.http.HttpRequest;
 import java.security.SecureRandom;
 
 @EnableWebSecurity

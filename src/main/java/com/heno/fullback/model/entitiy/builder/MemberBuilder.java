@@ -1,6 +1,6 @@
 package com.heno.fullback.model.entitiy.builder;
 
-import com.heno.fullback.model.common.Role;
+import com.heno.fullback.model.states.Role;
 import com.heno.fullback.model.valueobject.Member;
 
 public class MemberBuilder {

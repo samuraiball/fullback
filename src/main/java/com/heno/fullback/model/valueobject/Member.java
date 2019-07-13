@@ -1,7 +1,7 @@
 package com.heno.fullback.model.valueobject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.heno.fullback.model.common.Role;
+import com.heno.fullback.model.states.Role;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.Id;

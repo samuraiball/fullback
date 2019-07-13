@@ -1,7 +1,7 @@
 package com.heno.fullback.controller;
 
-import com.heno.fullback.model.common.Status;
-import com.heno.fullback.model.dto.TaskResource;
+import com.heno.fullback.model.states.Status;
+import com.heno.fullback.common.dto.TaskResource;
 import com.heno.fullback.model.valueobject.Task;
 import com.heno.fullback.model.entitiy.builder.TaskBuilder;
 import com.heno.fullback.model.domainservice.TaskService;

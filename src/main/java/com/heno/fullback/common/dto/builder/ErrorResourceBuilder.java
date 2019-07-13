@@ -1,6 +1,6 @@
-package com.heno.fullback.model.common.builder;
+package com.heno.fullback.common.dto.builder;
 
-import com.heno.fullback.model.common.ErrorResource;
+import com.heno.fullback.common.dto.ErrorResource;
 
 import java.time.LocalDateTime;
 

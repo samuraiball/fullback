@@ -1,6 +1,6 @@
-package com.heno.fullback.security;
+package com.heno.fullback.common.security;
 
-import com.heno.fullback.model.common.Role;
+import com.heno.fullback.model.states.Role;
 import com.heno.fullback.model.valueobject.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

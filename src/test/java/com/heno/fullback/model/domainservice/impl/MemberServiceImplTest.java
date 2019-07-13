@@ -1,10 +1,10 @@
 package com.heno.fullback.model.domainservice.impl;
 
-import com.heno.fullback.exception.DataNotFoundException;
-import com.heno.fullback.model.common.Role;
+import com.heno.fullback.common.exception.DataNotFoundException;
+import com.heno.fullback.model.states.Role;
 import com.heno.fullback.model.valueobject.Member;
 import com.heno.fullback.model.entitiy.builder.MemberBuilder;
-import com.heno.fullback.model.repository.MemberDao;
+import com.heno.fullback.repository.MemberDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

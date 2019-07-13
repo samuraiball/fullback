@@ -1,6 +1,5 @@
-package com.heno.fullback.model.dto;
+package com.heno.fullback.common.dto;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public class TaskResource implements Serializable {

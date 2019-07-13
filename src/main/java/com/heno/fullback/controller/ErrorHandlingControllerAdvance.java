@@ -1,10 +1,10 @@
 package com.heno.fullback.controller;
 
-import com.heno.fullback.exception.DataAlreadyExistsException;
-import com.heno.fullback.exception.DataNotFoundException;
-import com.heno.fullback.exception.ForbiddenException;
-import com.heno.fullback.model.common.ErrorResource;
-import com.heno.fullback.model.common.builder.ErrorResourceBuilder;
+import com.heno.fullback.common.exception.DataAlreadyExistsException;
+import com.heno.fullback.common.exception.DataNotFoundException;
+import com.heno.fullback.common.exception.ForbiddenException;
+import com.heno.fullback.common.dto.ErrorResource;
+import com.heno.fullback.common.dto.builder.ErrorResourceBuilder;
 import org.seasar.doma.jdbc.OptimisticLockException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

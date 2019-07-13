@@ -1,4 +1,4 @@
-package com.heno.fullback.model.repository;
+package com.heno.fullback.repository;
 
 
 import com.heno.fullback.model.valueobject.Member;

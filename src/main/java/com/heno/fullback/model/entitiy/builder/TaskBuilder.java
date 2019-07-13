@@ -1,6 +1,6 @@
 package com.heno.fullback.model.entitiy.builder;
 
-import com.heno.fullback.model.common.Status;
+import com.heno.fullback.model.states.Status;
 import com.heno.fullback.model.valueobject.Task;
 
 import java.sql.Timestamp;

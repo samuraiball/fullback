@@ -1,8 +1,8 @@
 package com.heno.fullback.model.domainservice.impl;
 
 import com.heno.fullback.model.valueobject.Member;
-import com.heno.fullback.model.repository.MemberDao;
-import com.heno.fullback.security.MemberUserDetail;
+import com.heno.fullback.repository.MemberDao;
+import com.heno.fullback.common.security.MemberUserDetail;
 import org.seasar.doma.jdbc.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
