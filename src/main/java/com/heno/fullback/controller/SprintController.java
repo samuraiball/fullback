@@ -15,6 +15,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Sprint controller
+ * for getting metrics
+ * @author Yuya Hirooka
+ */
 @RestController
 @RequestMapping("/api")
 public class SprintController {
@@ -27,7 +32,6 @@ public class SprintController {
 
 	/**
 	 * Handler to get  task's Information that Member is specified by ID.
-	 *
 	 * @return List of tasks
 	 */
 	@GetMapping("/tasks/{sprintId}")

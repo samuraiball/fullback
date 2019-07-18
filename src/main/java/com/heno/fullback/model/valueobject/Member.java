@@ -11,11 +11,8 @@ import java.io.Serializable;
 
 /**
  * Member Entity
- * have
  *
- * @author Yuya Hirooka
  */
-
 @Entity
 @Table(name = "member")
 public class Member implements Serializable {
