@@ -5,6 +5,9 @@ import com.heno.fullback.model.valueobject.Task;
 
 import java.util.List;
 
+/**
+ * Task Domain Service InterFace
+ */
 public interface TaskService {
 
 	public List<Task> getAllTasks();

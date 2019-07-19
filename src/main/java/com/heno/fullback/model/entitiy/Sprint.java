@@ -5,9 +5,11 @@ import org.seasar.doma.Entity;
 import org.seasar.doma.Id;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Sprint
+ */
 @Entity
 public class Sprint implements Serializable {
 

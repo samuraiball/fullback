@@ -6,6 +6,9 @@ import org.seasar.doma.Entity;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Team
+ */
 @Entity
 public class Team implements Serializable {
 

@@ -5,7 +5,7 @@ import com.heno.fullback.model.valueobject.Member;
 import java.util.List;
 
 /**
- * MemberService InterFace.
+ * Member Domain Service InterFace.
  * Deal with Member
  */
 public interface MemberService {

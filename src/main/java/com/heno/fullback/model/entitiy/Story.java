@@ -8,6 +8,9 @@ import org.seasar.doma.Id;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Story
+ */
 @Entity
 public class Story implements Serializable {
 
