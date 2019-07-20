@@ -1,5 +1,6 @@
 package com.heno.fullback.controller;
 
+import com.heno.fullback.model.domainservice.SprintService;
 import com.heno.fullback.model.states.Status;
 import com.heno.fullback.common.dto.TaskResource;
 import com.heno.fullback.model.valueobject.Task;
@@ -25,6 +26,7 @@ import java.util.UUID;
 public class SprintController {
 
 	TaskService taskService;
+	SprintService sprintService;
 
 	public SprintController(TaskService taskService) {
 		this.taskService = taskService;

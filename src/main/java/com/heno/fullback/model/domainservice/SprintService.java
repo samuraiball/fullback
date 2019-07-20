@@ -6,6 +6,5 @@ import java.math.BigDecimal;
  * Sprint Domain Service InterFace.
  */
 public interface SprintService {
-
 	BigDecimal calcNeedsTimePerDay(String sprintId);
 }
