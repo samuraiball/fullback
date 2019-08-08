@@ -1,4 +1,4 @@
-package com.heno.fullback.controller;
+package com.heno.fullback.api;
 
 import com.heno.fullback.common.exception.ForbiddenException;
 import com.heno.fullback.common.dto.MemberRequestResource;

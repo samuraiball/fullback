@@ -1,4 +1,4 @@
-package com.heno.fullback.controller;
+package com.heno.fullback.api;
 
 import com.heno.fullback.model.domainservice.SprintService;
 import com.heno.fullback.model.states.Status;

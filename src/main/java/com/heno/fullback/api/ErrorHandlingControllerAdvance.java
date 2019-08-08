@@ -1,4 +1,4 @@
-package com.heno.fullback.controller;
+package com.heno.fullback.api;
 
 import com.heno.fullback.common.exception.DataAlreadyExistsException;
 import com.heno.fullback.common.exception.DataNotFoundException;
