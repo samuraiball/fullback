@@ -1,8 +1,13 @@
 package com.heno.fullback.common.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class ErrorResource {
+/**
+ * Error Resource
+ * @author hirooka
+ */
+public class ErrorResource implements Serializable {
 
 
 	public ErrorResource(LocalDateTime time, String message) {

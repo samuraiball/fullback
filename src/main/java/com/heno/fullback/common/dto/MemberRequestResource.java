@@ -7,6 +7,10 @@ import com.heno.fullback.common.dto.constraintsgroup.MemberUpdateValidationGroup
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * Member request Resource
+ * @author hirooka
+ */
 public class MemberRequestResource implements Serializable {
 
 	MemberRequestResource() {
